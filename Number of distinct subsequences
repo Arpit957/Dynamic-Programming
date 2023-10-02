@@ -1,0 +1,23 @@
+long long int c = (1e9)+7;
+class Solution{
+  public:	
+	int distinctSubsequences(string s)
+	{
+	    // Your code goes here
+//map tells that no of distinct sequennces upto index i 
+	    unordered_map<char,long long int> mp;
+//ans is taken one becaue it also includes empty set
+	    long long int ans=1;
+	    int n = s.size();
+	    
+	    for(int i=0;i<n;i++){
+
+	       long long int t= mp[s[i]];
+	       mp[s[i]]=(ans%c);
+//if (t>0) then we the single one canno be taken n to considertion
+//else simple add to our answer the disticnt sequences
+	       ans+=((ans-t)%c);
+	    }
+	    return ans%(c);
+	}
+};
