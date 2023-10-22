@@ -1,0 +1,73 @@
+//{ Driver Code Starts
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+class Solution{
+  int solveMem(int curr, int prev, int arr[], int n,vector<vector<int>>&dp)
+    {
+       if(curr == n) return 0;
+       
+       if(dp[curr][prev+1] != -1) return dp[curr][prev+1];
+       
+       int incl = 0;
+       if(prev == -1 || arr[curr] > arr[prev]) 
+        incl = arr[curr] + solveMem(curr+1,curr,arr,n,dp);
+        
+       int excl = 0 + solveMem(curr+1, prev,arr,n,dp);
+       
+       return dp[curr][prev+1] = max(incl,excl);
+    }
+	public:
+	int maxSumIS(int arr[], int n)  
+	{  
+	    // Your code goes here
+	   // vector<vector<int>>dp(n, vector<int>(n+1,-1));
+    //     return solveMem(0,-1,arr,n,dp);
+        
+        
+           vector<int>dp(n,0);
+	    int ans=INT_MIN;
+	    for(int i=0;i<n;i++){
+	        dp[i]=arr[i];
+	    }
+	    for(int i=0; i<n; i++){
+	        for(int j=0; j<i; j++){
+	            if(arr[i]>arr[j]){
+	                dp[i] = max(dp[j]+arr[i], dp[i]);
+	            }
+	        }
+	        ans = max(ans, dp[i]);
+	    }
+	    return ans;
+	}  
+};
+
+//{ Driver Code Starts.
+int main() 
+{
+   	
+   
+   	int t;
+    cin >> t;
+    while (t--)
+    {
+        int n;
+        cin >> n;
+
+        int a[n];
+
+        for(int i = 0; i < n; i++)
+        	cin >> a[i];
+
+      
+
+	    Solution ob;
+	    cout << ob.maxSumIS(a, n) << "\n";
+	     
+    }
+    return 0;
+}
+
+
+// } Driver Code Ends
