@@ -1,0 +1,59 @@
+//{ Driver Code Starts
+// Initial Template for c++
+
+#include <bits/stdc++.h>
+using namespace std;
+
+// } Driver Code Ends
+// User function Template for C++
+
+class Solution{
+      bool isPalindrome(string s, int i, int j) {
+        while(i<j) {
+            if(s[i++] != s[j--]) return false;
+        }
+        return true;
+    }
+    int solve(int ind,int n,string s,int ans,vector<int>&dp){
+        if(ind>=n)return 0;
+        
+        if(dp[ind]!=-1)return dp[ind];
+        
+        for(int i = ind;i<n;i++){
+            int temp = 0;
+            bool arpit = false;
+            if(isPalindrome(s,ind,i)){
+                temp = 1 + solve(i+1,n,s,ans,dp);
+                arpit = true;
+            }
+            if(arpit)
+            ans = min(ans,temp);
+        }
+        return dp[ind]=ans;
+    }
+public:
+    int palindromicPartition(string str)
+    {
+        // code here
+        int n =str.size();
+        int ans  = INT_MAX;
+        vector<int>dp(n+1,-1);
+        return solve(0,n,str,ans,dp)-1;
+    }
+};
+
+//{ Driver Code Starts.
+
+int main(){
+    int t;
+    cin>>t;
+    while(t--){
+        string str;
+        cin>>str;
+        
+        Solution ob;
+        cout<<ob.palindromicPartition(str)<<"\n";
+    }
+    return 0;
+}
+// } Driver Code Ends
