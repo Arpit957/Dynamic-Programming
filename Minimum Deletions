@@ -1,0 +1,32 @@
+//MIN no of deletions required to make the two string palindrome
+//aebcbda
+//o/p = 2
+
+ int solve(int n , int m , string &str1 , string &str2 , vector<vector<int>>&dp){
+        if(n == 0 or m == 0){
+            return 0;
+        }
+        
+        if(str1[n - 1] == str2[m - 1]){
+            return 1 + helperFun(n - 1 , m - 1 , str1 , str2 , dp);
+        }
+        
+        if(dp[n][m] != -1){
+            return dp[n][m];
+        }
+        
+        int option1 = solve(n , m - 1 , str1 , str2 , dp);
+        int option2 = solve(n - 1 , m , str1 , str2 , dp);
+        
+        return dp[n][m] = max(option1 , option2);
+    }
+   public: 
+    int minimumNumberOfDeletions(string str1) { 
+        int n = str1.size();
+        string str2 = str1;
+        reverse(str2.begin() , str2.end());
+        vector<vector<int>>dp(n + 1 , vector<int>(n + 1 , -1));
+        int cnt = solve(n , n , str1 , str2 , dp);
+        return n - cnt;
+    } 
+};
